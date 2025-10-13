@@ -1,43 +1,4 @@
-/* const eventos = [
-    {
-        id: 1,
-        tipo: "Atraccion",
-        nombre: "Museo 1",
-        hora: "13",
-        costo: 100
-    },
-    {
-        id: 2,
-        tipo: "Transporte",
-        nombre: "Tren",
-        hora: "8",
-        costo: 150
-    },
-    {
-        id: 3,
-        tipo: "Atraccion",
-        nombre: "Museo 2",
-        hora: "11",
-        costo: 254
-    },
-    {
-        id: 4,
-        tipo: "Comida",
-        nombre: "Amborguesa",
-        hora: "16",
-        costo: 567
-    },
-        {
-        id: 5,
-        tipo: "Transporte",
-        nombre: "Tren 2",
-        hora: "17",
-        costo: 57
-    },
-] */
 
-/* console.log(eventos)
-console.log("djjadsj") */
 let vacaciones = [] //conjunto de dias
 let dia =  [] //conjunto de eventos
 let stringEventoFlag = ""
@@ -56,17 +17,32 @@ class Evento {
     }
 }
 
+//Existe algo en local storage? si no, visualiza pantalla de crear
+
+if (localStorage.getItem("numeroDias") ){
+    let messageTitle = "Regresa a planear tu viaje a " + localStorage.getItem("nombreVacaciones") + " de " +  localStorage.getItem("numeroDias") + " dias"
+    console.log(messageTitle)
+} else {
+    let messageTitle = "Tu viaje de" + diasVacaciones + "dias a " + nombreVacaciones + " ha sido creado, agrega eventos a cada dia "
+    console.log(messageTitle)
+    let pantallaApp = document.getElementById("screen-app")
+}
+
 //Primera pantalla
 
 let crearVacaciones = document.getElementById("crear-button")
 let duracionVacacion = document.getElementById("duracion-vacacion")
 let nombreVacacion = document.getElementById("nombre-vacacion")
-let pantallaApp = document.getElementById("screen-app")
+
 
 crearVacaciones.onclick = () => {
     //guardar datos y borrar
     diasVacaciones = duracionVacacion.value
     nombreVacaciones = nombreVacacion.value
+
+    localStorage.setItem("numeroDias",diasVacaciones)
+    localStorage.setItem("nombreVacaciones",nombreVacaciones)
+
     console.log(diasVacaciones,nombreVacaciones)
     pantallaApp.innerHTML = ""
     //crear segunda pantalla
@@ -114,6 +90,51 @@ crearVacaciones.onclick = () => {
 
     let horaValor = 0
     let minutosValor = 0
+
+    if (localStorage.getItem("dia")){
+
+        dia = JSON.parse(localStorage.getItem("dia"))
+
+        console.log(dia)
+
+        //sortear dia por hora
+
+        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
+
+        //print ul
+        listaEventos = document.getElementById("lista-eventos")
+
+
+
+        for (const evento of dia) {
+            let li = document.createElement("li")
+            if (evento.minutos < 10) {
+                stringEvento = evento.hora +":"+ "0" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo
+            } else {
+                stringEvento = evento.hora +":" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo
+            }
+
+            li.innerHTML = `<span>${stringEvento}</span>`
+            li.className = "evento"
+
+            const botonEliminar = document.createElement("button")
+            botonEliminar.className = "boton-evento"
+            botonEliminar.id = "eliminar-"+evento.nombre
+            botonEliminar.textContent = "Eliminar"
+            botonEliminar.addEventListener("click",() => {
+                console.log(dia)
+                index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
+                dia.splice(index,1)
+                li.remove()
+                const diaJSON = JSON.stringify(dia)
+                localStorage.setItem("dia",diaJSON)
+            })
+            li.appendChild(botonEliminar)
+            
+            listaEventos.appendChild(li)
+
+        }
+    }
 
     horaEventoPlus.onclick = () => {
         horaValor++
@@ -184,13 +205,17 @@ crearVacaciones.onclick = () => {
                 index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
                 dia.splice(index,1)
                 li.remove()
-                console.log(dia)
+                const diaJSON = JSON.stringify(dia)
+                localStorage.setItem("dia",diaJSON)
             })
             li.appendChild(botonEliminar)
-
+            
             listaEventos.appendChild(li)
 
         }
+
+        const diaJSON = JSON.stringify(dia)
+        localStorage.setItem("dia",diaJSON)
     }
 
 }
