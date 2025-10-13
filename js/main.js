@@ -1,6 +1,113 @@
+/* const eventos = [
+    {
+        id: 1,
+        tipo: "Atraccion",
+        nombre: "Museo 1",
+        hora: "13",
+        costo: 100
+    },
+    {
+        id: 2,
+        tipo: "Transporte",
+        nombre: "Tren",
+        hora: "8",
+        costo: 150
+    },
+    {
+        id: 3,
+        tipo: "Atraccion",
+        nombre: "Museo 2",
+        hora: "11",
+        costo: 254
+    },
+    {
+        id: 4,
+        tipo: "Comida",
+        nombre: "Amborguesa",
+        hora: "16",
+        costo: 567
+    },
+        {
+        id: 5,
+        tipo: "Transporte",
+        nombre: "Tren 2",
+        hora: "17",
+        costo: 57
+    },
+] */
+
+/* console.log(eventos)
+console.log("djjadsj") */
+vacaciones = [] //conjunto de dias
+dia =  [] //conjunto de eventos
+
+class Evento {
+    constructor(tipo, nombre, costo, hora, minutos){
+        this.tipo = tipo
+        this.nombre = nombre
+        this.costo = costo
+        this.hora = hora
+        this.minutos = minutos
+    }
+}
+
+let tipoEvento = document.getElementById("tipo")
+let nombreEvento = document.getElementById("nombre")
+let costoEvento = document.getElementById("costo")
+let horaEventoPlus = document.getElementById("h-plus-button")
+let horaEventoMinus = document.getElementById("h-minus-button")
+let horaEvento = document.getElementById("hora")
+let minutosEventoPlus = document.getElementById("m-plus-button")
+let minutosEventoMinus = document.getElementById("m-minus-button")
+let minutosEvento = document.getElementById("minutos")
+let ingresarEvento = document.getElementById("ingresar")
+
+let horaValor = 0
+let minutosValor = 0
+
+horaEventoPlus.onclick = () => {
+    horaValor++
+    if (horaValor > 24) horaValor = 0 
+    horaEvento.innerHTML = horaValor 
+}
+
+horaEventoMinus.onclick = () => {
+    horaValor--
+    if (horaValor < 0)  horaValor = 23
+    horaEvento.innerHTML = horaValor
+}
+
+minutosEventoPlus.onclick = () => {
+    minutosValor++
+    if (horaValor > 60) minutosValor = 0 
+    minutosEvento.innerHTML = minutosValor 
+}
+
+minutosEventoMinus.onclick = () => {
+    minutosValor--
+    if (minutosValor < 0)  minutosValor = 59
+    minutosEvento.innerHTML = minutosValor
+}
 
 
-opcionMenu = 0
+
+ingresarEvento.onclick = () => {
+    
+    dia.push( new Evento(tipoEvento.value, nombreEvento.value, costoEvento.value, horaValor, minutosValor  ) )
+    tipoEvento.value = ""
+    nombreEvento.value = ""
+    costoEvento.value = ""
+    console.log(dia)
+
+}
+
+
+
+
+
+
+
+/* opcionMenu = 0
 const tipoEvento=[]
 const nombreEvento=[]
 const horaEvento=[]
@@ -126,4 +233,4 @@ while (opcionMenu!=6){
         default:
             break
     }
-}
+} */
