@@ -5,36 +5,24 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--JS-->
     <script defer src="./js/main.js"></script>
-    <title>Pre-Entrega 1</title>
+    <!-- Styles -->
+    <link rel="stylesheet" href=".\styles\styles.css">
+
+    <title>Pre-Entrega 2</title>
 </head>
 
 <body>
     <h1>Juan Alberto Rosales Juarez</h1>
-    <div id="inputs">
-        <div>Tipo de evento</div>
-        <input type="text" id="tipo">
-        <div>Nombre</div>
-        <input type="text" id="nombre">
-        <div>Costo</div>
-        <input type="text" id="costo">
-        <div>Hora</div>
-
-        <button id="h-plus-button">+</button>
-        <span id="hora" >00</span>
-        <button id="h-minus-button">-</button>
-
-        <button id="m-plus-button">+</button>
-        <span id="minutos">00</span>
-        <button id="m-minus-button">-</button>
-
-        <button id="ingresar">Ingresar</button>
-
-    </div>
-
-    <div id="eventos">
-        <ul id="lista-eventos">
-        </ul>
-    </div>
+    <section id="screen-app" class="screen">
+        <div id="pantalla-inicial">
+            <h2>Crea tu vacacion</h2>
+            <h3>A donde vas?</h3>
+            <input type="text" id="nombre-vacacion">
+            <h3>Cuantos dias dura?</h3>
+            <input type="text" id="duracion-vacacion">
+            <button id="crear-button">Crear</button>
+        </div>
+    </section>
 
 </body>
 
