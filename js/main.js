@@ -40,6 +40,8 @@
 console.log("djjadsj") */
 vacaciones = [] //conjunto de dias
 dia =  [] //conjunto de eventos
+stringEventoFlag = ""
+botones = []
 
 class Evento {
     constructor(tipo, nombre, costo, hora, minutos){
@@ -48,8 +50,10 @@ class Evento {
         this.costo = costo
         this.hora = hora
         this.minutos = minutos
+        this.horaDecimal = this.hora + this.minutos/60
     }
 }
+
 
 let tipoEvento = document.getElementById("tipo")
 let nombreEvento = document.getElementById("nombre")
@@ -89,40 +93,61 @@ minutosEventoMinus.onclick = () => {
     minutosEvento.innerHTML = minutosValor
 }
 
-
-
 ingresarEvento.onclick = () => {
+
+    //borrar ul
+
+    if (dia.length > 0){
+        let listaEventos = document.getElementById("lista-eventos")
+        listaEventos.innerHTML = ""
+    }
     
+    //Crear Instancia de evento y agregar a dia
+
     dia.push( new Evento(tipoEvento.value, nombreEvento.value, costoEvento.value, horaValor, minutosValor  ) )
     tipoEvento.value = ""
     nombreEvento.value = ""
     costoEvento.value = ""
-    console.log(dia)
-
-    let eventos = document.getElementById("eventos")
-    let listaEventos = document.createElement("ul")
-    listaEventos.id = "lista-eventos"
-    eventos.appendChild(listaEventos)
-
 
     //sortear dia por hora
-    //borrar li
 
-    let agruparElementos = document.getElementsByClassName("Evento")
-    
-    //for (const li of listaActividades) li.remove()
+    dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
 
     //print ul
+    listaEventos = document.getElementById("lista-eventos")
+
+   /*  dia.forEach((evento)) */
+
     for (const evento of dia) {
         let li = document.createElement("li")
-        li.innerHTML = evento.tipo + " Con el nombre " + evento.nombre + " A las "+ evento.hora +":"+evento.minutos +" Con el presupuesto de " + evento.costo
-        li.className = "Evento"
+        if (evento.minutos < 10) {
+            stringEvento = evento.hora +":"+ "0" + evento.minutos +" " +evento.tipo + " Con el nombre " + evento.nombre +" Con el presupuesto de " + evento.costo
+        } else {
+            stringEvento = evento.hora +":" + evento.minutos +" " +evento.tipo + " Con el nombre " + evento.nombre +" Con el presupuesto de " + evento.costo
+        }
+
+        li.innerHTML = `<span>${stringEvento}</span>`
+        li.className = "evento"
+
+        const botonEliminar = document.createElement("button")
+        botonEliminar.className = "boton-evento"
+        botonEliminar.id = "eliminar-"+evento.nombre
+        botonEliminar.textContent = "Eliminar"
+        botonEliminar.addEventListener("click",() => {
+            console.log(dia)
+            index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
+            dia.splice(index,1)
+            li.remove()
+            console.log(dia)
+        })
+        li.appendChild(botonEliminar)
+
         listaEventos.appendChild(li)
+
     }
 
-    console.log(agruparElementos)
-
 }
+
 
 
 
