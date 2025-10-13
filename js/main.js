@@ -99,6 +99,29 @@ ingresarEvento.onclick = () => {
     costoEvento.value = ""
     console.log(dia)
 
+    let eventos = document.getElementById("eventos")
+    let listaEventos = document.createElement("ul")
+    listaEventos.id = "lista-eventos"
+    eventos.appendChild(listaEventos)
+
+
+    //sortear dia por hora
+    //borrar li
+
+    let agruparElementos = document.getElementsByClassName("Evento")
+    
+    //for (const li of listaActividades) li.remove()
+
+    //print ul
+    for (const evento of dia) {
+        let li = document.createElement("li")
+        li.innerHTML = evento.tipo + " Con el nombre " + evento.nombre + " A las "+ evento.hora +":"+evento.minutos +" Con el presupuesto de " + evento.costo
+        li.className = "Evento"
+        listaEventos.appendChild(li)
+    }
+
+    console.log(agruparElementos)
+
 }
 
 
