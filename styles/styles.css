@@ -10,19 +10,35 @@ body {
 }
 
 section{
-    background-color: antiquewhite;
-    margin: 100px;
-    padding: 50px;
+  background-color: rgb(241, 241, 241);
+  margin-top: 10px;
+  margin-left: 100px;
+  margin-right: 100px;
+  padding: 50px;
 }
 
 div{
  margin: 5px;
 }
 
+.comentarios {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
 .eventos-stile {
-  background-color: coral;
+  background-color: #D86363;
 }
 
 ul {
       list-style-type: none;
+      padding: 20px;
+}
+
+button{
+  margin: 10px;
+  border-radius: 0;
+  border-style: none;
+  padding: 10px;
+  background-color: #FFE29F;;
 }

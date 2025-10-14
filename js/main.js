@@ -19,64 +19,22 @@ class Evento {
     }
 }
 
-
-
 let pantallaApp = document.getElementById("screen-app")
 
 //Existe algo en local storage? si no, visualiza pantalla de crear
 
 if ( localStorage.getItem("numeroDias") ){
+
+    //Crear mensaje, cambia segun la circumstancia
     let messageTitle = "Regresa a planear tu viaje a " + localStorage.getItem("nombreVacaciones") + " de " +  localStorage.getItem("numeroDias") + " dias"
 
-    pantallaApp.innerHTML = ""
-
-    //crear segunda pantalla
-    agregaEventosPantalla(pantallaApp,messageTitle)
-    //Crear elementos
-                                    
-    if (localStorage.getItem("dia")){
-
-        dia = JSON.parse(localStorage.getItem("dia"))
-        console.log(dia)
-
-        //sortear dia por hora
-        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
-
-        //print ul
-        listaEventos = document.getElementById("lista-eventos")
-        actualizaLista()
-    }
-    //eventos Tiempo
-    eventosHora()
-    eventosMinutos()
-
-    //Ingresar Evento
-    let ingresarEvento = document.getElementById("ingresar")
-
-    ingresarEvento.onclick = () => {
-
-        //borrar ul para actualizar
-        if (dia.length > 0){
-            let listaEventos = document.getElementById("lista-eventos")
-            listaEventos.innerHTML = ""
-        }
-        
-        //Crear Instancia de evento y agregar a dia aki
-        crearEventosApp()
-
-        //sortear dia por hora
-        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
-
-        //actualiza pantalla de agenda
-        actualizaLista()
-
-        const diaJSON = JSON.stringify(dia)
-        localStorage.setItem("dia",diaJSON)
-    }
+    //rutina Principal
+    rutinaPrincipal(messageTitle)
 
 
 } else {
-    
+
+    //preguntar por datos del viaje
     pantallaApp.innerHTML = `        <div id="pantalla-inicial">
             <h2>Crea tu vacacion</h2>
             <h3>A donde vas?</h3>
@@ -91,63 +49,15 @@ if ( localStorage.getItem("numeroDias") ){
     let nombreVacacion = document.getElementById("nombre-vacacion")
 
     crearVacaciones.onclick = () => {
-    //guardar datos y borrar
-        /* diasVacaciones = duracionVacacion.value
-        nombreVacaciones = nombreVacacion.value */
-
+        
+        //guardar nombre y dias 
         localStorage.setItem("numeroDias",duracionVacacion.value)
         localStorage.setItem("nombreVacaciones",nombreVacacion.value)
 
+        //Crear mensaje, cambia segun la circumstancia
         let messageTitle = "Tu viaje de " + localStorage.getItem("numeroDias") + " dias a " + localStorage.getItem("nombreVacaciones") + " ha sido creado, agrega eventos a cada dia "
 
-        console.log(diasVacaciones,nombreVacaciones)
-        pantallaApp.innerHTML = ""
-        
-        //crear segunda pantalla
-        agregaEventosPantalla(pantallaApp,messageTitle)
-                                    
-        if (localStorage.getItem("dia")){
-
-            dia = JSON.parse(localStorage.getItem("dia"))
-
-            console.log(dia)
-        }
-
-        //sortear dia por hora
-        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
-
-        //print ul
-        actualizaLista()
-
-        //eventos Tiempo
-        eventosHora()
-        eventosMinutos()
-
-    let ingresarEvento = document.getElementById("ingresar")
-        ingresarEvento.onclick = () => {
-
-            //borrar ul
-
-            if (dia.length > 0){
-                let listaEventos = document.getElementById("lista-eventos")
-                listaEventos.innerHTML = ""
-            }
-            
-            //Crear Instancia de evento y agregar a dia
-
-            crearEventosApp()
-
-            //sortear dia por hora
-
-            dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
-
-            //print ul
-
-            actualizaLista()
-
-            const diaJSON = JSON.stringify(dia)
-            localStorage.setItem("dia",diaJSON)
-        }
+        rutinaPrincipal(messageTitle)
 
     }
 }
@@ -193,9 +103,9 @@ function actualizaLista(){
         console.log(evento)
         let li = document.createElement("li")
         if (evento.minutos < 10) {
-            stringEvento = evento.hora +":"+ "0" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo +"pesos"
+            stringEvento = evento.hora +":"+ "0" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo +" pesos"
         } else {
-            stringEvento = evento.hora +":" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo+"pesos"
+            stringEvento = evento.hora +":" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo+" pesos"
         }
 
         li.innerHTML = `<span>${stringEvento}</span>`
@@ -269,4 +179,52 @@ function crearEventosApp(){
     tipoEvento.value = ""
     nombreEvento.value = ""
     costoEvento.value = ""
+}
+
+function rutinaPrincipal(messageTitle){
+    //Clear pantalla
+    pantallaApp.innerHTML = ""
+
+    //crear segunda pantalla
+    agregaEventosPantalla(pantallaApp,messageTitle)
+
+    //cargar dia si existe                                
+    if (localStorage.getItem("dia")){
+
+        dia = JSON.parse(localStorage.getItem("dia"))
+        console.log(dia)
+
+        //sortear dia por hora
+        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
+    }
+    //print ul
+    actualizaLista()
+
+    //eventos Tiempo
+    eventosHora()
+    eventosMinutos()
+
+    //Ingresar Evento
+    let ingresarEvento = document.getElementById("ingresar")
+
+    ingresarEvento.onclick = () => {
+
+        //borrar ul para actualizar
+        if (dia.length > 0){
+            let listaEventos = document.getElementById("lista-eventos")
+            listaEventos.innerHTML = ""
+        }
+        
+        //Crear Instancia de evento y agregar a dia aki
+        crearEventosApp()
+
+        //sortear dia por hora
+        dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
+
+        //actualiza pantalla de agenda
+        actualizaLista()
+
+        const diaJSON = JSON.stringify(dia)
+        localStorage.setItem("dia",diaJSON)
+    }
 }
