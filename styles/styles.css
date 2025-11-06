@@ -40,6 +40,13 @@ div{
   background-color: #D86363;
 }
 
+.error-mensaje{
+  background-color: #FFE29F;
+  color: #d53232;
+  font-weight: 500;
+
+}
+
 ul {
       list-style-type: none;
       padding: 20px;
@@ -50,5 +57,5 @@ button{
   border-radius: 0;
   border-style: none;
   padding: 10px;
-  background-color: #FFE29F;;
+  background-color: #FFE29F;
 }
