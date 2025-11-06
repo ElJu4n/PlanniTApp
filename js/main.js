@@ -220,7 +220,7 @@ function agregaEventosPantalla(screenApp,message){
         GuardaDia()
         diaActual--
         if (diaActual < 0){
-            diaActual = viajes[viajeIndex].duracion
+            diaActual = viajes[viajeIndex].duracion-1
         }
         actualizaDia(diaActual)
     }
