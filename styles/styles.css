@@ -30,6 +30,16 @@ div{
   background-color: #D86363;
 }
 
+.div-nombre{
+  width: 300px;
+  font-weight: 400;
+  color: rgb(241, 241, 241);;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #D86363;
+}
+
 ul {
       list-style-type: none;
       padding: 20px;

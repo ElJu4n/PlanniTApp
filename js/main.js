@@ -68,7 +68,7 @@ if (localStorage.getItem("viajes")){
         let botonSync = document.createElement("button")
         botonSync.className = "boton-evento"
         botonSync.id = "boton-sync"
-        botonSync.textContent = "Sincroniza de la Base de Datos"
+        botonSync.textContent = "Sincroniza con la Base de Datos"
         botonSync.addEventListener("click", () => {
         obtenerViajesDeDB()
         botonSync.remove()
@@ -155,8 +155,12 @@ function pantallaViajes(){
     let contador = 0
     for (const viaje of viajes) {
         let li = document.createElement("li")
-        li.value = viaje.nombre
-        li.textContent = viaje.nombre
+        let div = document.createElement("div")
+        div.textContent = viaje.nombre
+        div.className = "div-nombre"
+
+        li.appendChild(div)
+
         //crear boton seguir editando
         let botonSeguir = document.createElement("button")
         botonSeguir.className = "boton-evento"
@@ -207,7 +211,7 @@ function pantallaViajes(){
         let botonSync = document.createElement("button")
         botonSync.className = "boton-evento"
         botonSync.id = "boton-sync"
-        botonSync.textContent = "Sincroniza de la Base de Datos"
+        botonSync.textContent = "Sincroniza con la Base de Datos"
         botonSync.addEventListener("click", () => {
         obtenerViajesDeDB()
         botonSync.remove()
