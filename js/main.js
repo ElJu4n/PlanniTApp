@@ -98,55 +98,6 @@ function pantallaCrear(){
 
 }
 
-/* if ( localStorage.getItem("viajes") ){
-
-    viajes = JSON.parse(localStorage.getItem("viajes"))
-
-    //Crear mensaje, cambia segun la circumstancia
-    let messageTitle = "Regresa a planear tu viaje a " + viajes[0].nombre + " de " +  viajes[0].duracion + " dias"
-
-    
-    //rutina Principal
-    //rutinaPrincipal(messageTitle)
-
-
-} else {
-
-    //preguntar por datos del viaje
-    pantallaApp.innerHTML = `        <div id="pantalla-inicial">
-            <h2>Crea tu viaje</h2>
-            <h3>A donde vas?</h3>
-            <input type="text" id="nombre-viaje">
-            <h3>Cuantos dias dura?</h3>
-            <input type="text" id="duracion-viaje">
-            <button id="crear-button">Crear</button>
-        </div>`
-
-    let crearViaje = document.getElementById("crear-button")
-    let duracionViaje = document.getElementById("duracion-viaje")
-    let nombreViaje = document.getElementById("nombre-viaje")
-
-    crearViaje.onclick = () => {
-        
-        // crear array con dias
-
-        viaje = new Array(parseInt(duracionViaje.value))
-
-
-        viajes.push( new Viaje(nombreViaje.value, duracionViaje.value, viaje) )
-        let viajesJSON = JSON.stringify(viajes)
-        localStorage.setItem("viajes",viajesJSON)
-
-        //Crear mensaje, cambia segun la circumstancia
-
-        let messageTitle = "Tu viaje de " + viajes[0].duracion + " dias a " + viajes[0].nombre + " ha sido creado, agrega eventos a cada dia "
-
-        //rutinaPrincipal(messageTitle)
-
-    }
-}
-
- */
 
 function pantallaViajes(){
     viajes = JSON.parse(localStorage.getItem("viajes"))
