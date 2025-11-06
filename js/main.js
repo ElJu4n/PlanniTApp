@@ -2,6 +2,7 @@
 let vacacion = [] //conjunto de dias
 let vacaciones = []
 let numeroVacaciones = 0
+let vacacionIndex = 0
 let dia =  [] //conjunto de eventos
 let diaActual = 0 //dia en pantalla se guarda
 let stringEvento = ""
@@ -32,9 +33,125 @@ class Vacacion {
 
 let pantallaApp = document.getElementById("screen-app")
 
+//primer menu
+
+if (localStorage.getItem("vacaciones")){
+
+    vacaciones = JSON.parse(localStorage.getItem("vacaciones"))
+
+    //crear interfaz para seleccionar o crear vacacion
+
+    pantallaApp.innerHTML = `
+                                        <div>Vacaciones Almacenadas en Local Storage</div>
+                                            <ul id="opcion-vacacion">
+                                            </ul>
+    
+    `
+    // crear las opciones
+
+    selectorVacaciones = document.getElementById("opcion-vacacion")
+
+    for (const vacacion of vacaciones) {
+        let li = document.createElement("option")
+        li.value = vacacion.nombre
+        li.textContent = vacacion.nombre
+        //crear boton seguir editando
+        let botonSeguir = document.createElement("button")
+        botonSeguir.className = "boton-evento"
+        botonSeguir.id = "seguir-"+vacacion.nombre
+        botonSeguir.textContent = "Seguir Editando"
+        //crear boton eliminar
+        let botonEliminar = document.createElement("button")
+        botonEliminar.className = "boton-evento"
+        botonEliminar.id = "eliminar-"+vacacion.nombre
+        botonEliminar.textContent = "Eliminar"
+/*         botonEliminar.addEventListener("click",() => {
+            index = vacaciones.findIndex((eventoD) => eventoD.nombre === evento.nombre)
+            dia.splice(index,1)
+            li.remove()
+            GuardaDia()
+        }) */
+        li.appendChild(botonSeguir)
+        li.appendChild(botonEliminar)
+        selectorVacaciones.appendChild(li)
+
+    }
+
+    //Agregar Boton Crear Nuevo
+
+    let botonNuevo = document.createElement("Button")
+    botonNuevo.className = "boton-evento"
+    botonNuevo.id = "boton-nuevo"
+    botonNuevo.textContent = "Crea una Nueva Vacacion!"
+    botonNuevo.addEventListener("click", () => {
+        vacacionIndex = vacaciones.length
+        console.log(vacacionIndex)
+        pantallaCrear()
+    })
+
+    selectorVacaciones.appendChild(botonNuevo)
+    
+
+} else {
+    pantallaApp.innerHTML = `
+                                        <div>No Tienes Vacaciones Almacenadas en Local Storagedd</div>
+                                            <ul id="opcion-vacacion">
+                                            </ul>
+    
+    `
+    //Agregar Boton Crear Nuevo
+    selectorVacaciones = document.getElementById("opcion-vacacion")
+
+    let botonNuevo = document.createElement("Button")
+    botonNuevo.className = "boton-evento"
+    botonNuevo.id = "boton-nuevo"
+    botonNuevo.textContent = "Crea una Nueva Vacacion!"
+    botonNuevo.addEventListener("click", () => {
+        vacacionIndex = vacaciones.length
+        console.log(vacacionIndex)
+        pantallaCrear()
+    })
+    selectorVacaciones.appendChild(botonNuevo)
+}
+
 //Existe algo en local storage? si no, visualiza pantalla de crear
 
-if ( localStorage.getItem("vacaciones") ){
+function pantallaCrear(){
+    //preguntar por datos del viaje
+    pantallaApp.innerHTML = `        <div id="pantalla-inicial">
+            <h2>Crea tu vacacion</h2>
+            <h3>A donde vas?</h3>
+            <input type="text" id="nombre-vacacion">
+            <h3>Cuantos dias dura?</h3>
+            <input type="text" id="duracion-vacacion">
+            <button id="crear-button">Crear</button>
+        </div>`
+
+    let crearVacacion = document.getElementById("crear-button")
+    let duracionVacacion = document.getElementById("duracion-vacacion")
+    let nombreVacacion = document.getElementById("nombre-vacacion")
+
+    crearVacacion.onclick = () => {
+        
+        // crear array con dias
+
+        vacacion = new Array(parseInt(duracionVacacion.value))
+
+        vacaciones.push( new Vacacion(nombreVacacion.value, duracionVacacion.value, vacacion) )
+        let vacacionesJSON = JSON.stringify(vacaciones)
+        localStorage.setItem("vacaciones",vacacionesJSON)
+
+        //Crear mensaje, cambia segun la circumstancia
+
+        let messageTitle = "Tu viaje de " + vacaciones[vacacionIndex].duracion + " dias a " + vacaciones[vacacionIndex].nombre + " ha sido creado, agrega eventos a cada dia "
+
+        rutinaPrincipal(messageTitle)
+
+    }
+
+}
+
+/* if ( localStorage.getItem("vacaciones") ){
 
     vacaciones = JSON.parse(localStorage.getItem("vacaciones"))
 
@@ -43,7 +160,7 @@ if ( localStorage.getItem("vacaciones") ){
 
     
     //rutina Principal
-    rutinaPrincipal(messageTitle)
+    //rutinaPrincipal(messageTitle)
 
 
 } else {
@@ -64,16 +181,10 @@ if ( localStorage.getItem("vacaciones") ){
 
     crearVacacion.onclick = () => {
         
-        //guardar nombre y dias 
-/*         localStorage.setItem("numeroDias",duracionVacacion.value)
-        localStorage.setItem("nombreVacaciones",nombreVacacion.value) */
-
         // crear array con dias
 
         vacacion = new Array(parseInt(duracionVacacion.value))
-        /* const vacacionJSON = JSON.stringify(vacacion)
-        localStorage.setItem("vacacion",vacacionJSON )
-        console.log("vacaciones el arreglo es: " + vacacion) */
+
 
         vacaciones.push( new Vacacion(nombreVacacion.value, duracionVacacion.value, vacacion) )
         let vacacionesJSON = JSON.stringify(vacaciones)
@@ -83,12 +194,12 @@ if ( localStorage.getItem("vacaciones") ){
 
         let messageTitle = "Tu viaje de " + vacaciones[0].duracion + " dias a " + vacaciones[0].nombre + " ha sido creado, agrega eventos a cada dia "
 
-        rutinaPrincipal(messageTitle)
+        //rutinaPrincipal(messageTitle)
 
     }
 }
 
-
+ */
 
 function agregaEventosPantalla(screenApp,message){
 
@@ -168,7 +279,7 @@ function actualizaDia(diaNuevo){
 }
 
 function GuardaDia(){
-    vacaciones[0].dias[diaActual] = dia
+    vacaciones[vacacionIndex].dias[diaActual] = dia
 
     let vacacionesJSON = JSON.stringify(vacaciones)
     localStorage.setItem("vacaciones",vacacionesJSON )
@@ -186,15 +297,15 @@ function actualizaLista(diaActualizar){
     listaEventos.textContent = ""
     console.log(vacaciones)
 
-    if (vacaciones[0].dias[diaActualizar] == null){
+    if (vacaciones[vacacionIndex].dias[diaActualizar] == null){
         listaEventos.textContent = "No tienes ningun evento en el dia, agrega eventos"
         dia = []
-    } else if (vacaciones[0].dias[diaActualizar].length == 0){
+    } else if (vacaciones[vacacionIndex].dias[diaActualizar].length == 0){
         listaEventos.textContent = "No tienes ningun evento en el dia, agrega eventos"
         dia = []
     } else {
 
-        dia = vacaciones[0].dias[diaActual]
+        dia = vacaciones[vacacionIndex].dias[diaActual]
 
         for (const evento of dia) {
             console.log(evento)
@@ -292,9 +403,9 @@ function rutinaPrincipal(messageTitle){
 
     //cargar dia si existe      
     
-    if (vacaciones[0].dias[diaActual] != null){
+    if (vacaciones[vacacionIndex].dias[diaActual] != null){
 
-        dia = vacaciones[0].dias[diaActual]
+        dia = vacaciones[vacacionIndex].dias[diaActual]
 
         //sortear dia por hora
         dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
