@@ -1,6 +1,9 @@
 
-let vacaciones = [] //conjunto de dias
+let vacacion = [] //conjunto de dias
+let vacaciones = []
+let numeroVacaciones = 0
 let dia =  [] //conjunto de eventos
+let diaActual = 0 //dia en pantalla se guarda
 let stringEvento = ""
 let botones = []
 let diasVacaciones = 0
@@ -19,15 +22,26 @@ class Evento {
     }
 }
 
+class Vacacion {
+    constructor(nombre, duracion, dias){
+        this.nombre = nombre
+        this.dias = dias
+        this.duracion = duracion
+    }
+}
+
 let pantallaApp = document.getElementById("screen-app")
 
 //Existe algo en local storage? si no, visualiza pantalla de crear
 
-if ( localStorage.getItem("numeroDias") ){
+if ( localStorage.getItem("vacaciones") ){
+
+    vacaciones = JSON.parse(localStorage.getItem("vacaciones"))
 
     //Crear mensaje, cambia segun la circumstancia
-    let messageTitle = "Regresa a planear tu viaje a " + localStorage.getItem("nombreVacaciones") + " de " +  localStorage.getItem("numeroDias") + " dias"
+    let messageTitle = "Regresa a planear tu viaje a " + vacaciones[0].nombre + " de " +  vacaciones[0].duracion + " dias"
 
+    
     //rutina Principal
     rutinaPrincipal(messageTitle)
 
@@ -44,90 +58,174 @@ if ( localStorage.getItem("numeroDias") ){
             <button id="crear-button">Crear</button>
         </div>`
 
-    let crearVacaciones = document.getElementById("crear-button")
+    let crearVacacion = document.getElementById("crear-button")
     let duracionVacacion = document.getElementById("duracion-vacacion")
     let nombreVacacion = document.getElementById("nombre-vacacion")
 
-    crearVacaciones.onclick = () => {
+    crearVacacion.onclick = () => {
         
         //guardar nombre y dias 
-        localStorage.setItem("numeroDias",duracionVacacion.value)
-        localStorage.setItem("nombreVacaciones",nombreVacacion.value)
+/*         localStorage.setItem("numeroDias",duracionVacacion.value)
+        localStorage.setItem("nombreVacaciones",nombreVacacion.value) */
+
+        // crear array con dias
+
+        vacacion = new Array(parseInt(duracionVacacion.value))
+        /* const vacacionJSON = JSON.stringify(vacacion)
+        localStorage.setItem("vacacion",vacacionJSON )
+        console.log("vacaciones el arreglo es: " + vacacion) */
+
+        vacaciones.push( new Vacacion(nombreVacacion.value, duracionVacacion.value, vacacion) )
+        let vacacionesJSON = JSON.stringify(vacaciones)
+        localStorage.setItem("vacaciones",vacacionesJSON)
 
         //Crear mensaje, cambia segun la circumstancia
-        let messageTitle = "Tu viaje de " + localStorage.getItem("numeroDias") + " dias a " + localStorage.getItem("nombreVacaciones") + " ha sido creado, agrega eventos a cada dia "
+
+        let messageTitle = "Tu viaje de " + vacaciones[0].duracion + " dias a " + vacaciones[0].nombre + " ha sido creado, agrega eventos a cada dia "
 
         rutinaPrincipal(messageTitle)
 
     }
 }
 
+
+
 function agregaEventosPantalla(screenApp,message){
-    screenApp.innerHTML = `       <h3>${message}</h3>
-                                        <div id="inputs">
-                                        <div>Tipo de evento</div>
-                                        <select id="tipo">
-                                        <option value="Atraccion">Atraccion</option>
-                                        <option value="Transporte">Transporte</option>
-                                        <option value="Comida">Comida</option>
-                                        </select>
-                                        <div>Nombre</div>
-                                        <input type="text" id="nombre">
-                                        <div>Costo</div>
-                                        <input type="text" id="costo">
-                                        <div>Hora</div>
 
-                                        <button id="h-plus-button">+</button>
-                                        <span id="hora" >00</span>
-                                        <button id="h-minus-button">-</button>
+    screenApp.innerHTML = `             <h3>${message}</h3>
 
-                                        <button id="m-plus-button">+</button>
-                                        <span id="minutos">00</span>
-                                        <button id="m-minus-button">-</button>
-
-                                        <button id="ingresar">Ingresar</button>
-
-                                        </div>
+                                        <button id="anterior-dia-button">Anterior</button>
+                                        <span id="dia-actual">Día ${diaActual+1}</span>
+                                        <button id="sig-dia-button">Siguiente</button>
 
                                         <div id="eventos" class = "eventos-stile">
                                             <ul id="lista-eventos">
                                             </ul>
-                                        </div>`
-}
+                                        </div>
 
-function actualizaLista(){
-    
-    listaEventos = document.getElementById("lista-eventos")
+                                        <div id="inputs">
+                                            <div>Tipo de evento</div>
+                                            <select id="tipo">
+                                                <option value="Atraccion">Atraccion</option>
+                                                <option value="Transporte">Transporte</option>
+                                                <option value="Comida">Comida</option>
+                                            </select>
+                                            <div>Nombre del evento</div>
+                                            <input type="text" id="nombre">
+                                            <div>Costo</div>
+                                            <input type="text" id="costo">
+                                            <div>Hora</div>
 
-    for (const evento of dia) {
-        console.log(evento)
-        let li = document.createElement("li")
-        if (evento.minutos < 10) {
-            stringEvento = evento.hora +":"+ "0" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo +" pesos"
-        } else {
-            stringEvento = evento.hora +":" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo+" pesos"
+                                            <button id="h-plus-button">+</button>
+                                            <span id="hora" >00</span>
+                                            <button id="h-minus-button">-</button>
+
+                                            <button id="m-plus-button">+</button>
+                                            <span id="minutos">00</span>
+                                            <button id="m-minus-button">-</button>
+
+                                            <button id="ingresar">Ingresar</button>
+
+                                        </div>
+
+                                        `
+
+    //Botones de dias
+
+    let anteriorDia = document.getElementById("anterior-dia-button")
+    let siguienteDia = document.getElementById("sig-dia-button")
+
+    //crear on click
+
+    anteriorDia.onclick = () => {
+        GuardaDia()
+        diaActual--
+        if (diaActual < 0){
+            diaActual = vacaciones[0].duracion
         }
+        actualizaDia(diaActual)
+    }
 
-        li.innerHTML = `<span>${stringEvento}</span>`
-        li.className = "evento"
-
-        const botonEliminar = document.createElement("button")
-        botonEliminar.className = "boton-evento"
-        botonEliminar.id = "eliminar-"+evento.nombre
-        botonEliminar.textContent = "Eliminar"
-        botonEliminar.addEventListener("click",() => {
-            console.log(dia)
-            index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
-            dia.splice(index,1)
-            li.remove()
-            const diaJSON = JSON.stringify(dia)
-            localStorage.setItem("dia",diaJSON)
-        })
-        li.appendChild(botonEliminar)
-        
-        listaEventos.appendChild(li)
+    siguienteDia.onclick = () => {
+        GuardaDia()
+        diaActual++
+        if (diaActual > vacaciones[0].duracion-1){
+            diaActual = 0
+        }
+        actualizaDia(diaActual)
 
     }
+
+}
+
+function actualizaDia(diaNuevo){
+    let spanDia = document.getElementById("dia-actual")
+    let diaforString = parseInt(diaNuevo) + 1
+    spanDia.textContent = "Día " + diaforString
+
+    actualizaLista(diaNuevo)
+
+}
+
+function GuardaDia(){
+    vacaciones[0].dias[diaActual] = dia
+
+    let vacacionesJSON = JSON.stringify(vacaciones)
+    localStorage.setItem("vacaciones",vacacionesJSON )
+
+}
+
+//Guarda Dia Actual
+
+
+//Actualiza a siguiente dia
+
+function actualizaLista(diaActualizar){
+    
+    listaEventos = document.getElementById("lista-eventos")
+    listaEventos.textContent = ""
+    console.log(vacaciones)
+
+    if (vacaciones[0].dias[diaActualizar] == null){
+        listaEventos.textContent = "No tienes ningun evento en el dia, agrega eventos"
+        dia = []
+    } else if (vacaciones[0].dias[diaActualizar].length == 0){
+        listaEventos.textContent = "No tienes ningun evento en el dia, agrega eventos"
+        dia = []
+    } else {
+
+        dia = vacaciones[0].dias[diaActual]
+
+        for (const evento of dia) {
+            console.log(evento)
+            let li = document.createElement("li")
+            if (evento.minutos < 10) {
+                stringEvento = evento.hora +":"+ "0" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo +" pesos"
+            } else {
+                stringEvento = evento.hora +":" + evento.minutos +"hrs " +evento.tipo + " con el nombre " + evento.nombre +" con el presupuesto de " + evento.costo+" pesos"
+            }
+
+            li.innerHTML = `<span>${stringEvento}</span>`
+            li.className = "evento"
+
+            const botonEliminar = document.createElement("button")
+            botonEliminar.className = "boton-evento"
+            botonEliminar.id = "eliminar-"+evento.nombre
+            botonEliminar.textContent = "Eliminar"
+            botonEliminar.addEventListener("click",() => {
+                console.log(dia)
+                index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
+                dia.splice(index,1)
+                li.remove()
+                GuardaDia()
+            })
+            li.appendChild(botonEliminar)
+            
+            listaEventos.appendChild(li)
+
+        }
+    }
+
 
 }
 
@@ -179,6 +277,8 @@ function crearEventosApp(){
     tipoEvento.value = ""
     nombreEvento.value = ""
     costoEvento.value = ""
+
+    GuardaDia()
 }
 
 function rutinaPrincipal(messageTitle){
@@ -188,17 +288,22 @@ function rutinaPrincipal(messageTitle){
     //crear segunda pantalla
     agregaEventosPantalla(pantallaApp,messageTitle)
 
-    //cargar dia si existe                                
-    if (localStorage.getItem("dia")){
+    vacaciones = JSON.parse(localStorage.getItem("vacaciones"))
 
-        dia = JSON.parse(localStorage.getItem("dia"))
-        console.log(dia)
+    //cargar dia si existe      
+    
+    if (vacaciones[0].dias[diaActual] != null){
+
+        dia = vacaciones[0].dias[diaActual]
 
         //sortear dia por hora
         dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
     }
+
+      
+
     //print ul
-    actualizaLista()
+    actualizaLista(diaActual)
 
     //eventos Tiempo
     eventosHora()
@@ -222,9 +327,10 @@ function rutinaPrincipal(messageTitle){
         dia.sort((a,b) => a.horaDecimal - b.horaDecimal)
 
         //actualiza pantalla de agenda
-        actualizaLista()
+        actualizaLista(diaActual)
+        GuardaDia()
 
-        const diaJSON = JSON.stringify(dia)
-        localStorage.setItem("dia",diaJSON)
+        /* const diaJSON = JSON.stringify(dia)
+        localStorage.setItem("dia",diaJSON) */
     }
 }
