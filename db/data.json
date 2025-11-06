@@ -1,0 +1,214 @@
+[
+  {
+    "nombre": "París y Versalles",
+    "duracion": 3,
+    "dias": [
+      [
+        {
+          "tipo": "Transporte",
+          "nombre": "Vuelo CDMX → París",
+          "costo": 14500,
+          "hora": 19,
+          "minutos": 15,
+          "horaDecimal": 19.25
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Torre Eiffel",
+          "costo": 450,
+          "hora": 10,
+          "minutos": 0,
+          "horaDecimal": 10
+        },
+        {
+          "tipo": "Comida",
+          "nombre": "Croissants en cafetería parisina",
+          "costo": 180,
+          "hora": 13,
+          "minutos": 0,
+          "horaDecimal": 13
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Palacio de Versalles",
+          "costo": 600,
+          "hora": 9,
+          "minutos": 30,
+          "horaDecimal": 9.5
+        }
+      ]
+    ]
+  },
+  {
+    "nombre": "Nueva York en invierno",
+    "duracion": 4,
+    "dias": [
+      [
+        {
+          "tipo": "Transporte",
+          "nombre": "Vuelo Ciudad de México → Nueva York",
+          "costo": 9800,
+          "hora": 6,
+          "minutos": 50,
+          "horaDecimal": 6.83
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Central Park",
+          "costo": 0,
+          "hora": 11,
+          "minutos": 0,
+          "horaDecimal": 11
+        },
+        {
+          "tipo": "Comida",
+          "nombre": "Hot dog callejero",
+          "costo": 80,
+          "hora": 13,
+          "minutos": 0,
+          "horaDecimal": 13
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Museo de Historia Natural",
+          "costo": 500,
+          "hora": 10,
+          "minutos": 15,
+          "horaDecimal": 10.25
+        }
+      ],
+      [
+        {
+          "tipo": "Comida",
+          "nombre": "Cena en Times Square",
+          "costo": 900,
+          "hora": 20,
+          "minutos": 0,
+          "horaDecimal": 20
+        }
+      ]
+    ]
+  },
+  {
+    "nombre": "Tokio y Akihabara",
+    "duracion": 3,
+    "dias": [
+      [
+        {
+          "tipo": "Transporte",
+          "nombre": "Vuelo Los Ángeles → Tokio",
+          "costo": 17500,
+          "hora": 22,
+          "minutos": 45,
+          "horaDecimal": 22.75
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Templo Senso-ji",
+          "costo": 0,
+          "hora": 9,
+          "minutos": 0,
+          "horaDecimal": 9
+        },
+        {
+          "tipo": "Comida",
+          "nombre": "Ramen en Shibuya",
+          "costo": 250,
+          "hora": 13,
+          "minutos": 20,
+          "horaDecimal": 13.33
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Akihabara (zona electrónica y anime)",
+          "costo": 0,
+          "hora": 12,
+          "minutos": 0,
+          "horaDecimal": 12
+        }
+      ]
+    ]
+  },
+  {
+    "nombre": "Londres histórico",
+    "duracion": 2,
+    "dias": [
+      [
+        {
+          "tipo": "Transporte",
+          "nombre": "Vuelo Madrid → Londres",
+          "costo": 2500,
+          "hora": 8,
+          "minutos": 10,
+          "horaDecimal": 8.17
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Big Ben y Parlamento",
+          "costo": 0,
+          "hora": 10,
+          "minutos": 0,
+          "horaDecimal": 10
+        },
+        {
+          "tipo": "Comida",
+          "nombre": "Fish & Chips",
+          "costo": 320,
+          "hora": 14,
+          "minutos": 10,
+          "horaDecimal": 14.17
+        }
+      ]
+    ]
+  },
+  {
+    "nombre": "Aventura en Sídney",
+    "duracion": 3,
+    "dias": [
+      [
+        {
+          "tipo": "Transporte",
+          "nombre": "Vuelo Santiago de Chile → Sídney",
+          "costo": 21000,
+          "hora": 21,
+          "minutos": 0,
+          "horaDecimal": 21
+        }
+      ],
+      [
+        {
+          "tipo": "Atraccion",
+          "nombre": "Ópera de Sídney",
+          "costo": 900,
+          "hora": 11,
+          "minutos": 0,
+          "horaDecimal": 11
+        }
+      ],
+      [
+        {
+          "tipo": "Comida",
+          "nombre": "Barbacoa australiana en la playa",
+          "costo": 450,
+          "hora": 14,
+          "minutos": 30,
+          "horaDecimal": 14.5
+        }
+      ]
+    ]
+  }
+]

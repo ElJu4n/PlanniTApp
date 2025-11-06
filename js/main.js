@@ -11,6 +11,9 @@ let diasViajes = 0
 let nombreViajes = '' 
 let horaValor = 0
 let minutosValor = 0
+let DBFlag = 0
+
+const URL = "./db/data.json"
 
 class Evento {
     constructor(tipo, nombre, costo, hora, minutos){
@@ -41,7 +44,7 @@ if (localStorage.getItem("viajes")){
 
 } else {
     pantallaApp.innerHTML = `
-                                        <div>No Tienes Viajes Almacenados en Local Storage</div>
+                                        <div>No tienes viajes almacenados en almacenamiento local, crea un nuevo viaje o sincroniza con la base de datos</div>
                                             <ul id="opcion-viaje">
                                             </ul>
     
@@ -58,8 +61,44 @@ if (localStorage.getItem("viajes")){
         console.log(viajeIndex)
         pantallaCrear()
     })
+
     selectorViajes.appendChild(botonNuevo)
+
+    if (DBFlag == 0){
+        let botonSync = document.createElement("button")
+        botonSync.className = "boton-evento"
+        botonSync.id = "boton-sync"
+        botonSync.textContent = "Sincroniza de la Base de Datos"
+        botonSync.addEventListener("click", () => {
+        obtenerViajesDeDB()
+        botonSync.remove()
+        DBFlag = 1
+        })
+        selectorViajes.appendChild(botonSync)
+    }
 }
+
+function obtenerViajesDeDB(){
+    fetch(URL)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            if (localStorage.getItem("viajes")){
+                viajes = JSON.parse(localStorage.getItem("viajes"))
+                viajes = viajes.concat(data)
+                console.log(viajes)
+                
+            } else {
+                viajes = data
+            }
+            let viajesJSON = JSON.stringify(viajes)
+            localStorage.setItem("viajes",viajesJSON)
+            pantallaViajes()
+            
+        })
+}
+
+
 
 //Existe algo en local storage? si no, visualiza pantalla de crear
 
@@ -105,7 +144,7 @@ function pantallaViajes(){
     //crear interfaz para seleccionar o crear viaje
 
     pantallaApp.innerHTML = `
-                                        <div>Viajes Almacenadas en Local Storage</div>
+                                        <div>Viajes Disponibles:</div>
                                             <ul id="opcion-viaje">
                                             </ul>
     
@@ -163,8 +202,29 @@ function pantallaViajes(){
         pantallaCrear()
     })
 
+    //Agregar Boton sync con DB
+    if (DBFlag == 0){
+        let botonSync = document.createElement("button")
+        botonSync.className = "boton-evento"
+        botonSync.id = "boton-sync"
+        botonSync.textContent = "Sincroniza de la Base de Datos"
+        botonSync.addEventListener("click", () => {
+        obtenerViajesDeDB()
+        botonSync.remove()
+        DBFlag = 1
+        })
+        selectorViajes.appendChild(botonSync)
+    }
+
+
     selectorViajes.appendChild(botonNuevo)
+    
 }
+
+function syncConDB(){
+     viajes = JSON.parse(localStorage.getItem("viajes"))
+}
+
 
 function agregaEventosPantalla(screenApp,message){
 
@@ -414,7 +474,5 @@ function rutinaPrincipal(messageTitle){
         actualizaLista(diaActual)
         GuardaDia()
 
-        /* const diaJSON = JSON.stringify(dia)
-        localStorage.setItem("dia",diaJSON) */
     }
 }
