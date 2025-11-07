@@ -125,10 +125,31 @@ function pantallaViajes(){
         botonEliminar.id = "eliminar-"+viaje.nombre
         botonEliminar.textContent = "Eliminar"
         botonEliminar.addEventListener("click",() => {
-            index = viajes.findIndex((viajeD) => viajeD.nombre === viaje.nombre)
-            viajes.splice(index,1)
-            li.remove()
-            GuardaDia()
+
+        Swal.fire({
+            title: "Seguro que quieres eliminar este viaje?",
+            showDenyButton: true,
+            confirmButtonColor: '#D86363',
+            denyButtonColor: ' #fccd60ff',
+            confirmButtonText: "Si",
+            denyButtonText: `No`
+            }).then((result) => {
+            if (result.isConfirmed) {
+                popupMessage("Viaje Eliminado","Puedes Continuar")
+                index = viajes.findIndex((viajeD) => viajeD.nombre === viaje.nombre)
+                viajes.splice(index,1)
+                li.remove()
+                
+                if (viajes.length > 0){
+                    GuardaDia()
+                }
+                
+            } else if (result.isDenied) {
+                
+            }
+        });
+
+            
         }) 
         li.appendChild(botonSeguir)
         li.appendChild(botonEliminar)
@@ -155,11 +176,7 @@ function pantallaViajes(){
         botonSync.id = "boton-sync"
         botonSync.textContent = "Sincroniza con la Base de Datos"
         botonSync.addEventListener("click", () => {
-            Swal.fire({
-                title: "Good job!",
-                text: "You clicked the button!",
-                icon: "success"
-            });
+            popupMessage("Exito","Se ha sincronizado la base de datos")
             obtenerViajesDeDB()
             botonSync.remove()
             DBFlag = 1

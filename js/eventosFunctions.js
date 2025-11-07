@@ -91,11 +91,30 @@ function actualizaLista(diaActualizar){
             botonEliminar.id = "eliminar-"+evento.nombre
             botonEliminar.textContent = "Eliminar"
             botonEliminar.addEventListener("click",() => {
-                console.log(dia)
-                index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
-                dia.splice(index,1)
-                li.remove()
-                GuardaDia()
+                Swal.fire({
+                    title: "Seguro que quieres eliminar este evento?",
+                    showDenyButton: true,
+                    confirmButtonColor: '#D86363',
+                    denyButtonColor: ' #fccd60ff',
+                    confirmButtonText: "Si",
+                    denyButtonText: "No"
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        popupMessage("Evento Eliminado","Puedes Continuar")
+                        console.log(dia)
+                        index = dia.findIndex((eventoD) => eventoD.nombre === evento.nombre)
+                        dia.splice(index,1)
+                        li.remove()
+                        
+                        if (viajes.length > 0){
+                            GuardaDia()
+                        }
+                        
+                    } else if (result.isDenied) {
+                        
+                    }
+                });
+                
             })
             li.appendChild(botonEliminar)
             
